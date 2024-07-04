@@ -29,7 +29,18 @@ fn main() {
     
 
     for log in result{
-        continue;
+        action_handler(log[1]);
     }
 }
 
+fn action_handler(action: &str) {
+    match action {
+        "ClientConnect" => actions::client_actions::print_client(action),
+        "ClientUserinfoChanged" => actions::client_actions::print_client(action),
+        "ClientBegin" => actions::client_actions::print_client(action),
+        "Kill" => actions::client_actions::print_client(action),
+        "InitGame" => actions::match_actions::print_match(action),
+        "ShutdownGame" => actions::match_actions::print_match(action),
+        _ => (),
+    }
+}
