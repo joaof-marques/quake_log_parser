@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 pub struct Game<'a> {
     total_kills: u32,
-    players: Vec<&'a str>,
+    pub players: HashMap<u32, &'a str>,
     pub kills: HashMap<&'a str, u32>,
     kill_by_means: HashMap<&'a str, u32>,
 }
@@ -11,7 +11,7 @@ impl<'a> Game<'a> {
     pub fn new() -> Self {
         Game {
             total_kills: 0,
-            players: vec![],
+            players: HashMap::new(),
             kills: HashMap::new(),
             kill_by_means: HashMap::new(),
         }
@@ -25,10 +25,8 @@ impl<'a> Game<'a> {
         self.total_kills += 1;
     }
 
-    pub fn insert_player_in_match(&mut self, player_name: &'a str) {
-        if !self.players.contains(&player_name) {
-            self.players.push(player_name);
-        }
+    pub fn insert_update_player_in_match(&mut self, player_name: &'a str, player_id: u32) {
+        self.players.insert(player_id, player_name);
     }
 
     pub fn increase_player_kills(&mut self, player_name: &'a str) {
