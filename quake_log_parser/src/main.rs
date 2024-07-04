@@ -1,12 +1,11 @@
 use std::fs;
 use std::collections::HashMap;
-use std::thread::current;
 
 mod actions;
 mod games;
 
 use actions::action_handler;
-use games::Game;
+use games::game_struct::Game;
 
 
 fn main() {
