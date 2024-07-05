@@ -17,10 +17,6 @@ impl<'a> Game<'a> {
         }
     }
 
-    pub fn get_total_kills_count(&self) -> u32 {
-        self.total_kills
-    }
-
     pub fn increase_total_kills_count(&mut self) {
         self.total_kills += 1;
     }
@@ -29,8 +25,7 @@ impl<'a> Game<'a> {
         if let Ok(parsed_id) = player_id.parse::<u32>() {
             self.players.insert(parsed_id, player_name);
         } else {
-            // Opcional: trate o erro de conversão aqui
-            eprintln!("Failed to parse player_id: {}", player_id);
+            println!("Failed to parse player_id: {}", player_id);
         }
     }
 
