@@ -1,42 +1,26 @@
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
 
-mod actions;
+mod utils;
 mod games;
 
-use actions::action_handler;
+use utils::utils::action_handler;
 use games::game_struct::Game;
 
-
 fn main() {
-
-    let mut matches_control: HashMap<&str, Game> = HashMap::new();
+    let mut matches_history: HashMap<u32, Game> = HashMap::new();
     let mut current_match = Game::new();
 
-    let file_path = "qgames.log"; 
-    let mut result: Vec<Vec<&str>> = Vec::new();
+    let file_path = "qgames.log";
     let content = fs::read_to_string(file_path).expect("Failed to read the file");
-    
-    for line in content.lines(){
-        let mut words: Vec<&str> = line.trim().split(' ').collect();
-        words[1] = words[1].trim_end_matches(":");
-        result.push(words);
-    }
-    
 
-    for log in result{
-        action_handler(log[1]);
+    for line in content.lines() {
+        let mut log_line: Vec<&str> = line.trim().split(" ").collect();
+        log_line[1] = log_line[1].trim_end_matches(":");
+
+        action_handler(&mut current_match, log_line, &mut matches_history, line);
+        // result.push(actions);
     }
+
 }
 
-fn action_handler(action: &str) {
-    match action {
-        "ClientConnect" => actions::client_actions::print_client(action),
-        "ClientUserinfoChanged" => actions::client_actions::print_client(action),
-        "ClientBegin" => actions::client_actions::print_client(action),
-        "Kill" => actions::client_actions::print_client(action),
-        "InitGame" => actions::match_actions::print_match(action),
-        "ShutdownGame" => actions::match_actions::print_match(action),
-        _ => (),
-    }
-}
